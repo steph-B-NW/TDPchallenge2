@@ -1,0 +1,473 @@
+student@student-Virtual-Machine:~$ mkdir Challenge2 && $cd
+student@student-Virtual-Machine:~$ ls
+Challenge2            docker_networking_tutorial  duotask           installers  Pictures   Videos
+Desktop               Documents                   examples.desktop  Music       Public
+dockerfile_exercises  Downloads                   flask             myapp       Templates
+student@student-Virtual-Machine:~$ cd Challenge2/
+student@student-Virtual-Machine:~/Challenge2$ ls
+student@student-Virtual-Machine:~/Challenge2$ git clone https://gitlab.com/qacdevops/trio-task/
+Cloning into 'trio-task'...
+warning: redirecting to https://gitlab.com/qacdevops/trio-task.git/
+remote: Enumerating objects: 30, done.
+remote: Counting objects: 100% (30/30), done.
+remote: Compressing objects: 100% (27/27), done.
+remote: Total 30 (delta 3), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (30/30), done.
+student@student-Virtual-Machine:~/Challenge2$ ls
+trio-task
+student@student-Virtual-Machine:~/Challenge2$ cd trio-task/
+student@student-Virtual-Machine:~/Challenge2/trio-task$ ls
+db  flask-app  nginx  README.md
+student@student-Virtual-Machine:~/Challenge2/trio-task$ cd flask-app/
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ ls
+app.py  Dockerfile  templates
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim app.py 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ ls
+app.py  Dockerfile  templates
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ cd templates/
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app/templates$ ls
+home.html
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app/templates$ vim home.html 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app/templates$ cd ../..
+student@student-Virtual-Machine:~/Challenge2/trio-task$ ls
+db  flask-app  nginx  README.md
+student@student-Virtual-Machine:~/Challenge2/trio-task$ cd db/
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ ls
+CreateTable.sql  Dockerfile
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ ls
+CreateTable.sql  Dockerfile
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim Cq
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ ls
+CreateTable.sql  Dockerfile
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim CreateTable.sql 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker build -t mysqlTable .
+[sudo] password for student: 
+invalid argument "mysqlTable" for "-t, --tag" flag: invalid reference format: repository name must be lowercase
+See 'docker build --help'.
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker build -t mysqltable .
+Sending build context to Docker daemon  3.584kB
+Step 1/3 : FROM mysql:5.7
+5.7: Pulling from library/mysql
+d121f8d1c412: Pull complete 
+f3cebc0b4691: Pull complete 
+1862755a0b37: Pull complete 
+489b44f3dbb4: Pull complete 
+690874f836db: Pull complete 
+baa8be383ffb: Pull complete 
+55356608b4ac: Pull complete 
+277d8f888368: Pull complete 
+21f2da6feb67: Pull complete 
+2c98f818bcb9: Pull complete 
+031b0a770162: Pull complete 
+Digest: sha256:14fd47ec8724954b63d1a236d2299b8da25c9bbb8eacc739bb88038d82da4919
+Status: Downloaded newer image for mysql:5.7
+ ---> ef08065b0a30
+Step 2/3 : ENV MYSQL_DATABSE=flask-db
+ ---> Running in 711cd0da1e45
+Removing intermediate container 711cd0da1e45
+ ---> eea2cc56ed4e
+Step 3/3 : COPY Createtable.sql docker-entrypoint-initdb.d/
+COPY failed: stat /var/lib/docker/tmp/docker-builder816948459/Createtable.sql: no such file or directory
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              eea2cc56ed4e        6 seconds ago       448MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+Unable to find image 'mysqltable:latest' locally
+docker: Error response from daemon: pull access denied for mysqltable, repository does not exist or may require 'docker login': denied: requested access to the resource is denied.
+See 'docker run --help'.
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker build -t mysqltable .
+Sending build context to Docker daemon  3.584kB
+Step 1/3 : FROM mysql:5.7
+ ---> ef08065b0a30
+Step 2/3 : ENV MYSQL_DATABSE=flask-db
+ ---> Using cache
+ ---> eea2cc56ed4e
+Step 3/3 : COPY CreateTable.sql docker-entrypoint-initdb.d/
+ ---> 1372ad373e71
+Successfully built 1372ad373e71
+Successfully tagged mysqltable:latest
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+cad6293595f9fe02a4e934306bc90e67cc58102a75f05518cd7a7d3def772cc0
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mysqltable          latest              1372ad373e71        54 seconds ago      448MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+docker: Error response from daemon: Conflict. The container name "/mysql" is already in use by container "cad6293595f9fe02a4e934306bc90e67cc58102a75f05518cd7a7d3def772cc0". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker exec -it mysql bash
+Error response from daemon: Container cad6293595f9fe02a4e934306bc90e67cc58102a75f05518cd7a7d3def772cc0 is not running
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker stop mysql
+mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker rm mysql
+mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker stop mysqltable
+Error response from daemon: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker build -t mysqltable .
+Sending build context to Docker daemon  3.584kB
+Step 1/3 : FROM mysql:5.7
+ ---> ef08065b0a30
+Step 2/3 : ENV MYSQL_DATABSE=flask-db
+ ---> Using cache
+ ---> eea2cc56ed4e
+Step 3/3 : COPY CreateTable.sql docker-entrypoint-initdb.d/
+ ---> Using cache
+ ---> 1372ad373e71
+Successfully built 1372ad373e71
+Successfully tagged mysqltable:latest
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mysqltable          latest              1372ad373e71        3 minutes ago       448MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+ec7fe6e8a766        mysqltable          "docker-entrypoint.s…"   6 seconds ago       Up 5 seconds        0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker exec -it mysql bash
+Error response from daemon: Container ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94 is not running
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker exec -it mysql bash
+Error response from daemon: Container ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94 is not running
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker exec -it mysqltable bash
+Error: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker exec -it mysql bash
+Error response from daemon: Container ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94 is not running
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+docker: Error response from daemon: Conflict. The container name "/mysql" is already in use by container "ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+docker: Error response from daemon: Conflict. The container name "/mysql" is already in use by container "ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker stop mysql
+mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+docker: Error response from daemon: Conflict. The container name "/mysql" is already in use by container "ec7fe6e8a766238ee73b32e9968d5dfd741833b77b8f6dfdc3f45a64a9492f94". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker stop mysqltable
+Error response from daemon: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mysqltable          latest              1372ad373e71        8 minutes ago       448MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker rm mysql
+mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker rm mysqltable
+Error: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+a597f006574a09778013acd777517b6c382618ca31feb0ac69d23ad1407088b3
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+a597f006574a        mysqltable          "docker-entrypoint.s…"   4 seconds ago       Up 4 seconds        0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker exec -it mysql bash
+Error response from daemon: Container a597f006574a09778013acd777517b6c382618ca31feb0ac69d23ad1407088b3 is not running
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ ls
+CreateTable.sql  Dockerfile
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ vim CreateTable.sql 
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ cd ..
+student@student-Virtual-Machine:~/Challenge2/trio-task$ ls
+db  flask-app  nginx  README.md
+student@student-Virtual-Machine:~/Challenge2/trio-task$ cd flask-app/
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ ls
+app.py  Dockerfile  templates
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim app.py 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker build -t myapp
+"docker build" requires exactly 1 argument.
+See 'docker build --help'.
+
+Usage:  docker build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker build -t myapp .
+Sending build context to Docker daemon   5.12kB
+Error response from daemon: Dockerfile parse error line 2: FROM requires either one or three arguments
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker build -t myapp .
+Sending build context to Docker daemon   5.12kB
+Error response from daemon: Dockerfile parse error line 6: COPY requires at least two arguments, but only one was provided. Destination could not be determined.
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker build -t myapp .
+Sending build context to Docker daemon   5.12kB
+Step 1/5 : FROM python:3.7
+3.7: Pulling from library/python
+57df1a1f1ad8: Pull complete 
+71e126169501: Pull complete 
+1af28a55c3f3: Pull complete 
+03f1c9932170: Pull complete 
+65b3db15f518: Pull complete 
+3e3b8947ed83: Pull complete 
+38d9e7938097: Pull complete 
+724043f425e0: Pull complete 
+6cf90f3f5863: Pull complete 
+Digest: sha256:5b430fe2263d891ce94145fdc320fe2a88336cc127301637625d6e5fe37bef60
+Status: Downloaded newer image for python:3.7
+ ---> 11c6e5fd966a
+Step 2/5 : RUN pip install flask flask_sqlalchemy
+ ---> Running in 3faa89b453ca
+Collecting flask
+  Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+Collecting flask_sqlalchemy
+  Downloading Flask_SQLAlchemy-2.4.4-py2.py3-none-any.whl (17 kB)
+Collecting Werkzeug>=0.15
+  Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Collecting itsdangerous>=0.24
+  Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting Jinja2>=2.10.1
+  Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting click>=5.1
+  Downloading click-7.1.2-py2.py3-none-any.whl (82 kB)
+Collecting SQLAlchemy>=0.8.0
+  Downloading SQLAlchemy-1.3.19-cp37-cp37m-manylinux2010_x86_64.whl (1.3 MB)
+Collecting MarkupSafe>=0.23
+  Downloading MarkupSafe-1.1.1-cp37-cp37m-manylinux1_x86_64.whl (27 kB)
+Installing collected packages: Werkzeug, itsdangerous, MarkupSafe, Jinja2, click, flask, SQLAlchemy, flask-sqlalchemy
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 SQLAlchemy-1.3.19 Werkzeug-1.0.1 click-7.1.2 flask-1.1.2 flask-sqlalchemy-2.4.4 itsdangerous-1.1.0
+Removing intermediate container 3faa89b453ca
+ ---> 662359e9cbf3
+Step 3/5 : COPY app.py .
+ ---> 94506d401ed4
+Step 4/5 : EXPOSE 5000
+ ---> Running in 7f70a614598a
+Removing intermediate container 7f70a614598a
+ ---> ad84a7719a21
+Step 5/5 : ENTRYPOINT ["python", "myapp.py"]
+ ---> Running in 0760232725f4
+Removing intermediate container 0760232725f4
+ ---> 188d273d6f83
+Successfully built 188d273d6f83
+Successfully tagged myapp:latest
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker run -d -p 5000:5000 --name flaskapp-container myapp
+b832f9dacfd9f983f00ca156f20df32141e1c97427102b8102083f525663747c
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp               latest              188d273d6f83        12 minutes ago      896MB
+mysqltable          latest              1372ad373e71        25 minutes ago      448MB
+python              3.7                 11c6e5fd966a        2 weeks ago         876MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker exec -it mysql bash
+Error response from daemon: Container a597f006574a09778013acd777517b6c382618ca31feb0ac69d23ad1407088b3 is not running
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rm myapp
+Error: No such container: myapp
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rm flaskapp-container
+flaskapp-container
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rm mysqltable
+Error: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rm mysql
+mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp               latest              188d273d6f83        16 minutes ago      896MB
+mysqltable          latest              1372ad373e71        29 minutes ago      448MB
+python              3.7                 11c6e5fd966a        2 weeks ago         876MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker run -d -p 5000:5000 --name flaskapp-container myapp
+56c0038c6409e7a4daf4a0c0dfaf8784b777c81f235e3ac751a88ff558f331f1
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline mysqltable
+0e9d5a92fc3ce8fce2b4e118c9d94b5f0034296c0769025919ab67f193a90786
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+0e9d5a92fc3c        mysqltable          "docker-entrypoint.s…"   5 seconds ago       Up 4 seconds        0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ cd ..
+student@student-Virtual-Machine:~/Challenge2/trio-task$ ls
+db  flask-app  nginx  README.md
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git remote add origin https://github.com/steph-b-nw/tdpchallenge2.git
+fatal: remote origin already exists.
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git add bd flask-app nginx README.md
+fatal: pathspec 'bd' did not match any files
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git add *
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git git status
+git: 'git' is not a git command. See 'git --help'.
+
+The most similar command is
+	init
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   db/Dockerfile
+	modified:   flask-app/Dockerfile
+	modified:   flask-app/app.py
+
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git commit -m "basic task 1st commit"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect e-mail address (got 'student@student-Virtual-Machine.(none)')
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git config --global user.name "steph-b-nw"student@student-Virtual-Machine:~/Challenge2/trio-task$ git config --global user.email "stephen.bowie@nationwide.co.uk"
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git commit -m "basic task 1st commit"
+[master e4525cd] basic task 1st commit
+ 3 files changed, 10 insertions(+), 9 deletions(-)
+student@student-Virtual-Machine:~/Challenge2/trio-task$ git push -u https://github.com/steph-b-nw/tdpchallenge2 master
+Username for 'https://github.com': steph-b-nw
+Password for 'https://steph-b-nw@github.com': 
+Counting objects: 37, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (34/34), done.
+Writing objects: 100% (37/37), 4.72 KiB | 1.18 MiB/s, done.
+Total 37 (delta 5), reused 0 (delta 0)
+remote: Resolving deltas: 100% (5/5), done.
+remote: This repository moved. Please use the new location:
+remote:   https://github.com/steph-B-NW/TDPchallenge2.git
+To https://github.com/steph-b-nw/tdpchallenge2
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'https://github.com/steph-b-nw/tdpchallenge2'.
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker ps
+[sudo] password for student: 
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker logs myapp
+Error: No such container: myapp
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker ps-a
+docker: 'ps-a' is not a docker command.
+See 'docker --help'
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+0e9d5a92fc3c        mysqltable          "docker-entrypoint.s…"   42 minutes ago      Exited (1) 42 minutes ago                       mysql
+56c0038c6409        myapp               "python myapp.py"        42 minutes ago      Exited (2) 42 minutes ago                       flaskapp-container
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker logs mysqltable
+Error: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker ps-a
+docker: 'ps-a' is not a docker command.
+See 'docker --help'
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+0e9d5a92fc3c        mysqltable          "docker-entrypoint.s…"   42 minutes ago      Exited (1) 42 minutes ago                       mysql
+56c0038c6409        myapp               "python myapp.py"        42 minutes ago      Exited (2) 42 minutes ago                       flaskapp-container
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker logs mysqltable
+Error: No such container: mysqltable
+student@student-Virtual-Machine:~/Challenge2/trio-task$ touch deploy.txt
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker logs flaskapp-container
+python: can't open file 'myapp.py': [Errno 2] No such file or directory
+student@student-Virtual-Machine:~/Challenge2/trio-task$ ls
+ db  'deploy (CleanedUp).txt'   deploy.txt   flask-app   nginx   README.md
+student@student-Virtual-Machine:~/Challenge2/trio-task$ cd flask-app/
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ ls
+app.py  Dockerfile  templates
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim app.py 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ vim Dockerfile 
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rm mysql
+mysql
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker flaskapp-container
+docker: 'flaskapp-container' is not a docker command.
+See 'docker --help'
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rm flaskapp-container
+flaskapp-container
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ cd ..
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker create network SQLNETWORK
+Unable to find image 'network:latest' locally
+Error response from daemon: pull access denied for network, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+student@student-Virtual-Machine:~/Challenge2/trio-task$ docker network create SQLNETWORK
+WARNING: Error loading config file: /home/student/.docker/config.json: stat /home/student/.docker/config.json: permission denied
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/networks/create: dial unix /var/run/docker.sock: connect: permission denied
+student@student-Virtual-Machine:~/Challenge2/trio-task$ sudo docker network create SQLNETWORK
+0543ce42f25c0a04914731577ee2c43a4484d57aad52d538338fb25c2df8c6b1
+student@student-Virtual-Machine:~/Challenge2/trio-task$ cd flask-app/
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp               latest              188d273d6f83        About an hour ago   896MB
+mysqltable          latest              1372ad373e71        About an hour ago   448MB
+python              3.7                 11c6e5fd966a        2 weeks ago         876MB
+mysql               5.7                 ef08065b0a30        2 weeks ago         448MB
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker rmi myapp
+Untagged: myapp:latest
+Deleted: sha256:188d273d6f839ca24fc2c3251aa98c9e45c38cbac1c5a4bd3a61f23556f60275
+Deleted: sha256:ad84a7719a21f30572ae3e2ebe33575a532c9d0a55c520a8f1ea22cf87a261f1
+Deleted: sha256:94506d401ed42f7b00002b8af79b5a49221daba36dff4e4afde437b5fa28e77f
+Deleted: sha256:da25f27f72bdda679ee39eecbe7a412fd1f6de25cc97b7d2547f6ca31492e0ab
+Deleted: sha256:662359e9cbf3d6c3e261759df4b83d45542f97edadb24599e06c16acb52bffb7
+Deleted: sha256:01a2cc24bb5ec74b09727f2103fd03e6ae11ad4c5237538e7a4dd4df00061e28
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker build -t myapp .
+Sending build context to Docker daemon   5.12kB
+Step 1/5 : FROM python:3.7
+ ---> 11c6e5fd966a
+Step 2/5 : RUN pip install flask flask_sqlalchemy pymysql
+ ---> Running in fb23f83775a8
+Collecting flask
+  Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+Collecting flask_sqlalchemy
+  Downloading Flask_SQLAlchemy-2.4.4-py2.py3-none-any.whl (17 kB)
+Collecting pymysql
+  Downloading PyMySQL-0.10.1-py2.py3-none-any.whl (47 kB)
+Collecting itsdangerous>=0.24
+  Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting Werkzeug>=0.15
+  Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Collecting click>=5.1
+  Downloading click-7.1.2-py2.py3-none-any.whl (82 kB)
+Collecting Jinja2>=2.10.1
+  Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting SQLAlchemy>=0.8.0
+  Downloading SQLAlchemy-1.3.19-cp37-cp37m-manylinux2010_x86_64.whl (1.3 MB)
+Collecting MarkupSafe>=0.23
+  Downloading MarkupSafe-1.1.1-cp37-cp37m-manylinux1_x86_64.whl (27 kB)
+Installing collected packages: itsdangerous, Werkzeug, click, MarkupSafe, Jinja2, flask, SQLAlchemy, flask-sqlalchemy, pymysql
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 SQLAlchemy-1.3.19 Werkzeug-1.0.1 click-7.1.2 flask-1.1.2 flask-sqlalchemy-2.4.4 itsdangerous-1.1.0 pymysql-0.10.1
+Removing intermediate container fb23f83775a8
+ ---> bd18b4f086f7
+Step 3/5 : COPY app.py .
+ ---> c007746250ca
+Step 4/5 : EXPOSE 5000
+ ---> Running in ccbfb564cb6d
+Removing intermediate container ccbfb564cb6d
+ ---> 1f0fd3e8f11b
+Step 5/5 : ENTRYPOINT ["python", "app.py"]
+ ---> Running in eda32671c329
+Removing intermediate container eda32671c329
+ ---> 81c313e945d9
+Successfully built 81c313e945d9
+Successfully tagged myapp:latest
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ sudo docker run -d -p 5000:5000 --name flaskapp-container --network SQLNETWORK myapp
+0ac9986e9f7bbe190761e736db44adc619c5549001e8a69c73b4598358ed26d6
+student@student-Virtual-Machine:~/Challenge2/trio-task/flask-app$ cd ..
+student@student-Virtual-Machine:~/Challenge2/trio-task$ cd db/
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ ls
+CreateTable.sql  Dockerfile
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker run -d -p 3306:3306 --name mysql --env MYSQL_ROOT_PASSWORD=zipline --network SQLNETWORK  mysqltable
+04f80464464332569f341910ccc6bec0b0ef0842e7f48799852bfbb1d2d3f19b
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS                    NAMES
+0ac9986e9f7b        myapp               "python app.py"     About a minute ago   Up 59 seconds       0.0.0.0:5000->5000/tcp   flaskapp-container
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ sudo docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                      PORTS                    NAMES
+04f804644643        mysqltable          "docker-entrypoint.s…"   27 seconds ago       Exited (1) 19 seconds ago                            mysql
+0ac9986e9f7b        myapp               "python app.py"          About a minute ago   Up About a minute           0.0.0.0:5000->5000/tcp   flaskapp-container
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ ^C
+student@student-Virtual-Machine:~/Challenge2/trio-task/db$ 
